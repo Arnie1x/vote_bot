@@ -29,34 +29,34 @@ for i in range(0, 1000):
         voteDriver.get("https://cup.craydel.com/submissions/1738850155")
         # mailDriver.set_window_size(1024, 768)
         # voteDriver.set_window_size(1024, 768)
+        mailDriver.implicitly_wait(100)
+        voteDriver.implicitly_wait(100)
 
         name = get_new_name()
-        mailDriver.implicitly_wait(5)
         email = mailDriver.find_element(by=By.ID, value="email").text
 
         # Initiate Voting on Website
-        voteDriver.implicitly_wait(13)
-        elements = voteDriver.find_elements(By.CLASS_NAME, 'label-with-icon')
+        # voteDriver.implicitly_wait(20)
         voteButton = voteDriver.find_element(By.XPATH,'//*[@id="app"]/div/main/div/div/section[1]/div/div[2]/div[2]/div[2]/a/span')
         voteAction.move_to_element(voteButton).click().perform()
-        voteDriver.implicitly_wait(5)
 
+        # voteDriver.implicitly_wait(10)
         nameField = voteDriver.find_element(by=By.ID, value="vote_name")
         emailField = voteDriver.find_element(by=By.ID, value="vote_email")
 
         nameField.send_keys(name)
         emailField.send_keys(email)
 
-        voteDriver.implicitly_wait(3)
+        # voteDriver.implicitly_wait(3)
         voteNowButton = voteDriver.find_element(By.XPATH, "//div[@id='app']/div[3]/div/div/div/form/div[5]/button/span")
         voteAction.move_to_element(voteNowButton).click().perform()
-        voteDriver.implicitly_wait(2)
 
         # Now, get the OTP code from 10minutemail
 
         mailReceived = False
         while not mailReceived:
             time.sleep(40)
+            # mailDriver.implicitly_wait(10)
             mailList = mailDriver.find_elements(by=By.TAG_NAME, value="td")
             for mail in mailList:
                 if mail.text.__contains__('Craydel'):
@@ -67,7 +67,7 @@ for i in range(0, 1000):
                     print('Waiting for Mail...')
                 time.sleep(10)
 
-        mailDriver.implicitly_wait(6)
+        # mailDriver.implicitly_wait(20)
         mailDriver.switch_to.frame(mailDriver.find_element(By.ID, 'iframeMail'))
         mailText = mailDriver.find_elements(By.TAG_NAME, "p")
         # print(mailText.text)
@@ -77,6 +77,7 @@ for i in range(0, 1000):
             if text.text[0].startswith(('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')):
                 otpCode = text.text
 
+        # voteDriver.implicitly_wait(20)
         otpField = voteDriver.find_element(by=By.CLASS_NAME, value="otp-field-box--0")
         otpField1 = voteDriver.find_element(by=By.CLASS_NAME, value="otp-field-box--1")
         otpField2 = voteDriver.find_element(by=By.CLASS_NAME, value="otp-field-box--2")
@@ -90,12 +91,11 @@ for i in range(0, 1000):
         otpField3.send_keys(otpCode[3])
         otpField4.send_keys(otpCode[4])
         otpField5.send_keys(otpCode[5])
-        voteDriver.implicitly_wait(5)
 
+        # voteDriver.implicitly_wait(10)
         placeVoteNowButton = voteDriver.find_element(By.XPATH,
                                                      "//*[@id='app']/div[3]/div/div/div/form/div[3]/button[1]")
         voteAction.move_to_element(placeVoteNowButton).click().perform()
-        voteDriver.implicitly_wait(3)
 
         voteDriver.close()
         mailDriver.close()
