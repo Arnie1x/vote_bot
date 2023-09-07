@@ -27,8 +27,8 @@ for i in range(0, 1000):
         voteDriver = webdriver.Firefox()
         voteAction = ActionChains(voteDriver)
         voteDriver.get("https://cup.craydel.com/submissions/1738850155")
-        mailDriver.set_window_size(1024, 768)
-        voteDriver.set_window_size(1024, 768)
+        # mailDriver.set_window_size(1024, 768)
+        # voteDriver.set_window_size(1024, 768)
 
         name = get_new_name()
         mailDriver.implicitly_wait(5)
@@ -94,7 +94,7 @@ for i in range(0, 1000):
         voteDriver.implicitly_wait(5)
 
         placeVoteNowButton = voteDriver.find_element(By.XPATH,
-                                                     "//div[@id='app']/div[3]/div/div/div/form/div[3]/button/span")
+                                                     "//*[@id='app']/div[3]/div/div/div/form/div[3]/button[1]")
         voteAction.move_to_element(placeVoteNowButton).click().perform()
         voteDriver.implicitly_wait(3)
 
