@@ -24,15 +24,17 @@ for i in range(0, 1000):
         mailDriver = webdriver.Firefox()
         mailAction = ActionChains(mailDriver)
         mailDriver.get("https://www.minuteinbox.com/")
-        mailDriver.implicitly_wait(5)
-
-        name = get_new_name()
-        email = mailDriver.find_element(by=By.ID, value="email").text
-
-        # Initiate Voting on Website
         voteDriver = webdriver.Firefox()
         voteAction = ActionChains(voteDriver)
         voteDriver.get("https://cup.craydel.com/submissions/1738850155")
+        mailDriver.set_window_size(1024, 768)
+        voteDriver.set_window_size(1024, 768)
+
+        name = get_new_name()
+        mailDriver.implicitly_wait(5)
+        email = mailDriver.find_element(by=By.ID, value="email").text
+
+        # Initiate Voting on Website
         voteDriver.implicitly_wait(10)
         elements = voteDriver.find_elements(By.CLASS_NAME, 'label-with-icon')
         voteButton = voteDriver.find_element(By.XPATH,
@@ -99,7 +101,10 @@ for i in range(0, 1000):
 
         voteDriver.close()
         mailDriver.close()
-    except:
+    except Exception as N:
         print('An error occurred on run: ' + str(i + 1) + '. Restarting...')
+        print(N)
+        voteDriver.close()
+        mailDriver.close()
     else:
         print('Vote #' + str(i + 1) + ' Submitted')
