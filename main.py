@@ -52,30 +52,22 @@ for i in range(0, 1000):
         voteAction.move_to_element(voteNowButton).click().perform()
         voteDriver.implicitly_wait(2)
 
-        otpField = voteDriver.find_element(by=By.CLASS_NAME, value="otp-field-box--0")
-        otpField1 = voteDriver.find_element(by=By.CLASS_NAME, value="otp-field-box--1")
-        otpField2 = voteDriver.find_element(by=By.CLASS_NAME, value="otp-field-box--2")
-        otpField3 = voteDriver.find_element(by=By.CLASS_NAME, value="otp-field-box--3")
-        otpField4 = voteDriver.find_element(by=By.CLASS_NAME, value="otp-field-box--4")
-        otpField5 = voteDriver.find_element(by=By.CLASS_NAME, value="otp-field-box--5")
-
         # Now, get the OTP code from 10minutemail
 
         mailReceived = False
         while not mailReceived:
-            time.sleep(60)
+            time.sleep(40)
             mailList = mailDriver.find_elements(by=By.TAG_NAME, value="td")
             for mail in mailList:
                 if mail.text.__contains__('Craydel'):
                     mailReceived = True
                     mailAction.move_to_element(mail).double_click().perform()
-                    mailDriver.implicitly_wait(2)
                     break
                 else:
                     print('Waiting for Mail...')
                 time.sleep(10)
 
-        mailDriver.implicitly_wait(3)
+        mailDriver.implicitly_wait(6)
         mailDriver.switch_to.frame(mailDriver.find_element(By.ID, 'iframeMail'))
         mailText = mailDriver.find_elements(By.TAG_NAME, "p")
         # print(mailText.text)
@@ -84,6 +76,13 @@ for i in range(0, 1000):
         for text in mailText:
             if text.text[0].startswith(('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')):
                 otpCode = text.text
+
+        otpField = voteDriver.find_element(by=By.CLASS_NAME, value="otp-field-box--0")
+        otpField1 = voteDriver.find_element(by=By.CLASS_NAME, value="otp-field-box--1")
+        otpField2 = voteDriver.find_element(by=By.CLASS_NAME, value="otp-field-box--2")
+        otpField3 = voteDriver.find_element(by=By.CLASS_NAME, value="otp-field-box--3")
+        otpField4 = voteDriver.find_element(by=By.CLASS_NAME, value="otp-field-box--4")
+        otpField5 = voteDriver.find_element(by=By.CLASS_NAME, value="otp-field-box--5")
 
         otpField.send_keys(otpCode[0])
         otpField1.send_keys(otpCode[1])
