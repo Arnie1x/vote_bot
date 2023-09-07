@@ -2,9 +2,10 @@ import random
 import time
 
 from selenium import webdriver
+from selenium.webdriver.common.actions.action_builder import ActionBuilder
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
-
+from selenium.webdriver.support.wait import WebDriverWait
 
 # This method is used to generate a new name from a dataset
 def get_new_name():
@@ -27,6 +28,8 @@ for i in range(0, 1000):
         voteDriver = webdriver.Firefox()
         voteAction = ActionChains(voteDriver)
         voteDriver.get("https://cup.craydel.com/submissions/1738850155")
+        ActionBuilder(voteDriver).clear_actions()
+        ActionBuilder(mailDriver).clear_actions()
         # mailDriver.set_window_size(1024, 768)
         # voteDriver.set_window_size(1024, 768)
         mailDriver.implicitly_wait(100)
@@ -38,7 +41,7 @@ for i in range(0, 1000):
         # Initiate Voting on Website
         # voteDriver.implicitly_wait(20)
         voteButton = voteDriver.find_element(By.XPATH,'//*[@id="app"]/div/main/div/div/section[1]/div/div[2]/div[2]/div[2]/a/span')
-        voteAction.move_to_element(voteButton).click().perform()
+        voteAction.move_to_element(voteButton).pause(0.5).click().perform()
 
         # voteDriver.implicitly_wait(10)
         nameField = voteDriver.find_element(by=By.ID, value="vote_name")
@@ -49,19 +52,19 @@ for i in range(0, 1000):
 
         # voteDriver.implicitly_wait(3)
         voteNowButton = voteDriver.find_element(By.XPATH, "//div[@id='app']/div[3]/div/div/div/form/div[5]/button/span")
-        voteAction.move_to_element(voteNowButton).click().perform()
+        voteAction.move_to_element(voteNowButton).pause(0.5).click().perform()
 
         # Now, get the OTP code from 10minutemail
 
         mailReceived = False
         while not mailReceived:
-            time.sleep(40)
+            time.sleep(30)
             # mailDriver.implicitly_wait(10)
             mailList = mailDriver.find_elements(by=By.TAG_NAME, value="td")
             for mail in mailList:
                 if mail.text.__contains__('Craydel'):
                     mailReceived = True
-                    mailAction.move_to_element(mail).double_click().perform()
+                    mailAction.move_to_element(mail).pause(0.5).double_click().perform()
                     break
                 else:
                     print('Waiting for Mail...')
@@ -95,14 +98,18 @@ for i in range(0, 1000):
         # voteDriver.implicitly_wait(10)
         placeVoteNowButton = voteDriver.find_element(By.XPATH,
                                                      "//*[@id='app']/div[3]/div/div/div/form/div[3]/button[1]")
-        voteAction.move_to_element(placeVoteNowButton).click().perform()
+        voteAction.move_to_element(placeVoteNowButton).pause(0.5).click().perform()
 
         voteDriver.close()
         mailDriver.close()
+        voteDriver.quit()
+        mailDriver.quit()
     except Exception as N:
         print('An error occurred on run: ' + str(i + 1) + '. Restarting...')
         print(N)
         voteDriver.close()
         mailDriver.close()
+        voteDriver.quit()
+        mailDriver.quit()
     else:
         print('Vote #' + str(i + 1) + ' Submitted')
