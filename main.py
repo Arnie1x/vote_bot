@@ -36,8 +36,8 @@ for i in range(0, 1000):
         ActionBuilder(mailDriver).clear_actions()
         # mailDriver.set_window_size(1024, 768)
         # voteDriver.set_window_size(1024, 768)
-        mailDriver.implicitly_wait(100)
-        voteDriver.implicitly_wait(100)
+        mailDriver.implicitly_wait(120)
+        voteDriver.implicitly_wait(120)
 
         name = get_new_name()
         email = mailDriver.find_element(by=By.ID, value="email").text
@@ -76,6 +76,7 @@ for i in range(0, 1000):
                 time.sleep(10)
 
         # mailDriver.implicitly_wait(20)
+        time.sleep(2)
         mailDriver.switch_to.frame(mailDriver.find_element(By.ID, 'iframeMail'))
         mailText = mailDriver.find_elements(By.TAG_NAME, "p")
         # print(mailText.text)
@@ -119,6 +120,6 @@ for i in range(0, 1000):
         voteDriver.quit()
         mailDriver.quit()
     else:
-        print('\n Run #' + str(i + 1))
-        print('Successful Votes: ' + str(successfulVotes))
-        print('Unsuccessful Votes: ' + str(unsuccessfulVotes))
+        print('\nRun #' + str(i + 1))
+        print('\tSuccessful Votes: ' + str(successfulVotes))
+        print('\tUnsuccessful Votes: ' + str(unsuccessfulVotes))
