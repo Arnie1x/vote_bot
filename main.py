@@ -35,10 +35,9 @@ for i in range(0, 1000):
         email = mailDriver.find_element(by=By.ID, value="email").text
 
         # Initiate Voting on Website
-        voteDriver.implicitly_wait(10)
+        voteDriver.implicitly_wait(13)
         elements = voteDriver.find_elements(By.CLASS_NAME, 'label-with-icon')
-        voteButton = voteDriver.find_element(By.XPATH,
-                                             '//div[@id=\'app\']/div/main/div/div/section/div/div[2]/div[2]/div[2]/a/span')
+        voteButton = voteDriver.find_element(By.XPATH,'//*[@id="app"]/div/main/div/div/section[1]/div/div[2]/div[2]/div[2]/a/span')
         voteAction.move_to_element(voteButton).click().perform()
         voteDriver.implicitly_wait(5)
 
