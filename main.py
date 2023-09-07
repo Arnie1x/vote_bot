@@ -95,7 +95,7 @@ for i in range(0, 1000):
         placeVoteNowButton = voteDriver.find_element(By.XPATH,
                                                      "//div[@id='app']/div[3]/div/div/div/form/div[3]/button/span")
         voteAction.move_to_element(placeVoteNowButton).click().perform()
-        voteDriver.implicitly_wait(2)
+        voteDriver.implicitly_wait(3)
 
         voteDriver.close()
         mailDriver.close()
