@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.wait import WebDriverWait
 
+
 # This method is used to generate a new name from a dataset
 def get_new_name():
     fNamesText = open('assets/fnames.txt', 'r')
@@ -18,6 +19,9 @@ def get_new_name():
     fNamesText.close()
     return newName
 
+
+successfulVotes = 0
+unsuccessfulVotes = 0
 
 for i in range(0, 1000):
     try:
@@ -40,7 +44,8 @@ for i in range(0, 1000):
 
         # Initiate Voting on Website
         # voteDriver.implicitly_wait(20)
-        voteButton = voteDriver.find_element(By.XPATH,'//*[@id="app"]/div/main/div/div/section[1]/div/div[2]/div[2]/div[2]/a/span')
+        voteButton = voteDriver.find_element(By.XPATH,
+                                             '//*[@id="app"]/div/main/div/div/section[1]/div/div[2]/div[2]/div[2]/a/span')
         voteAction.move_to_element(voteButton).pause(0.5).click().perform()
 
         # voteDriver.implicitly_wait(10)
@@ -99,12 +104,14 @@ for i in range(0, 1000):
         placeVoteNowButton = voteDriver.find_element(By.XPATH,
                                                      "//*[@id='app']/div[3]/div/div/div/form/div[3]/button[1]")
         voteAction.move_to_element(placeVoteNowButton).pause(0.5).click().perform()
-
+        time.sleep(0.5)
         voteDriver.close()
         mailDriver.close()
         voteDriver.quit()
         mailDriver.quit()
+        successfulVotes += 1
     except Exception as N:
+        unsuccessfulVotes += 1
         print('An error occurred on run: ' + str(i + 1) + '. Restarting...')
         print(N)
         voteDriver.close()
@@ -112,4 +119,6 @@ for i in range(0, 1000):
         voteDriver.quit()
         mailDriver.quit()
     else:
-        print('Vote #' + str(i + 1) + ' Submitted')
+        print('\n Run #' + str(i + 1))
+        print('Successful Votes: ' + str(successfulVotes))
+        print('Unsuccessful Votes: ' + str(unsuccessfulVotes))
