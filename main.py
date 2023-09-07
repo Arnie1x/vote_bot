@@ -40,7 +40,7 @@ for i in range(0, 1000):
         voteButton = voteDriver.find_element(By.XPATH,
                                              '//div[@id=\'app\']/div/main/div/div/section/div/div[2]/div[2]/div[2]/a/span')
         voteAction.move_to_element(voteButton).click().perform()
-        voteDriver.implicitly_wait(2)
+        voteDriver.implicitly_wait(5)
 
         nameField = voteDriver.find_element(by=By.ID, value="vote_name")
         emailField = voteDriver.find_element(by=By.ID, value="vote_email")
@@ -48,7 +48,7 @@ for i in range(0, 1000):
         nameField.send_keys(name)
         emailField.send_keys(email)
 
-        voteDriver.implicitly_wait(1)
+        voteDriver.implicitly_wait(3)
         voteNowButton = voteDriver.find_element(By.XPATH, "//div[@id='app']/div[3]/div/div/div/form/div[5]/button/span")
         voteAction.move_to_element(voteNowButton).click().perform()
         voteDriver.implicitly_wait(2)
